@@ -27,7 +27,7 @@ public class ClubStoreMapLycler implements ClubStoreLycler {
 
     @Override
     public BoardStore requestBoardStore() {
-        return new BoardMapStroe();
+        return new BoardMapStore();
     }
 
     @Override
