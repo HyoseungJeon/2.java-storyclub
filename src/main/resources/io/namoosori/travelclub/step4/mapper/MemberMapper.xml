@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.namoosori.travelclub.step4.mapper.MemberMapper">
+    <select id="create"
+            parameterType="io.namoosori.travelclub.step4.da.dto.CommunityMemberDto"
+            resultType="String">
+        "insert into communitymember(email,name,nickName,phoneNumber,birthDay,addressList,membershipList)
+        values (#{email}, #{name}, #{nickName},#{phoneNumber},#{birthDay},#{addressList},#{membershipList})
+    </select>
+
+    <select id="retrieve" resultType="io.namoosori.travelclub.step4.da.dto.CommunityMemberDto">
+        select * from communitymember where email=#{email}
+    </select>
+
+    <select id="retrieveByName" resultType="io.namoosori.travelclub.step4.da.dto.CommunityMemberDto">
+        select * from communitymember where name=#{name}
+    </select>
+
+    <update id="update" parameterType="io.namoosori.travelclub.step4.da.dto.CommunityMemberDto">
+        update communitymember(email,name,nickName,phoneNumber,birthDay,addressList,membershipList)
+        set #{email}, #{name}, #{nickName},#{phoneNumber},#{birthDay},#{addressList},#{membershipList}
+    </update>
+
+    <delete id="delete" parameterType="String">
+        delete from communitymember where email=#{email}
+    </delete>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.namoosori.travelclub.step4.mapper.ClubMapper">
+    <select id="create"
+            parameterType="io.namoosori.travelclub.step4.da.dto.TravelClubDto"
+            resultType="String">
+        insert into travelclub(name, intro, foundationDay, boardId, membershipList)
+        values (#{name},#{intro},#{foundationDay},#{boardId},#{membershipList})
+    </select>
+
+    <select id="retrieve"
+            resultType="io.namoosori.travelclub.step4.da.dto.TravelClubDto">
+        select * from travelclub where usid=#{clubId}
+    </select>
+
+    <select id="retrieveByName" resultType="io.namoosori.travelclub.step4.da.dto.TravelClubDto">
+        select * from travelclub where name=#{name}
+    </select>
+
+    <update id="update" parameterType="io.namoosori.travelclub.step4.da.dto.TravelClubDto">
+        update travelclub(name, intro, foundationDay, boardId, membershipList)
+        set name=#{name},intro=#{intro}, foundationDay=#{foundationDay}, boardId=#{boardId}, membershipList=#{membershipList}
+        where usid=#{usid}
+    </update>
+
+    <delete id="delete" parameterType="String">
+        delete from travelclub where usid=#{usid}
+    </delete>
+</mapper>

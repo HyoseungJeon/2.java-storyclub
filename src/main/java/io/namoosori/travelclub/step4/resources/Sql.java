@@ -6,7 +6,7 @@ public class Sql {
     //second index -> c : create, r : retrieve, r_ : retrieveBy%, u : update, d : delete
     //====================================================================================
 
-    public static final String C1c = "insert travelclub set usid=?, name=?,intro=?, foundationDay=?, boardId=?, membershipList=?";
+    public static final String C1c = "insert travelclub set name=?,intro=?, foundationDay=?, boardId=?, membershipList=?";
     public static final String C1r = "select * from travelclub where usid=?";
     public static final String C1rn = "select * from travelclub where name=?";
     public static final String C1u = "update travelclub set usid=?, name=?,intro=?, foundationDay=?, boardId=?, membershipList=? where usid=?";

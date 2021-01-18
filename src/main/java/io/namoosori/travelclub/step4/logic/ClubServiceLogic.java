@@ -4,6 +4,7 @@ import io.namoosori.travelclub.step1.entity.club.ClubMembership;
 import io.namoosori.travelclub.step1.entity.club.CommunityMember;
 import io.namoosori.travelclub.step1.entity.club.RoleInClub;
 import io.namoosori.travelclub.step1.entity.club.TravelClub;
+import io.namoosori.travelclub.step4.da.ClubStoreMasterLycler;
 import io.namoosori.travelclub.step4.da.map.ClubStoreMapLycler;
 import io.namoosori.travelclub.step4.service.ClubService;
 import io.namoosori.travelclub.step4.service.dto.ClubMembershipDto;
@@ -26,8 +27,10 @@ public class ClubServiceLogic implements ClubService {
 
     public ClubServiceLogic() {
 
-        clubStore = ClubStoreMapLycler.getInstance().requestClubStore();
-        memberStore = ClubStoreMapLycler.getInstance().requestMemberStore();
+//        clubStore = ClubStoreMapLycler.getInstance().requestClubStore();
+//        memberStore = ClubStoreMapLycler.getInstance().requestMemberStore();
+        clubStore = ClubStoreMasterLycler.getInstance().requestClubStore();
+        memberStore = ClubStoreMasterLycler.getInstance().requestMemberStore();
     }
 
     @Override

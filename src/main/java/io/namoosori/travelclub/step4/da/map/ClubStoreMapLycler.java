@@ -1,6 +1,5 @@
 package io.namoosori.travelclub.step4.da.map;
 
-import io.namoosori.travelclub.step4.da.maria.ClubStoremariaLycler;
 import io.namoosori.travelclub.step4.store.*;
 
 public class ClubStoreMapLycler implements ClubStoreLycler {

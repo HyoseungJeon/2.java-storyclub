@@ -1,16 +1,15 @@
-package io.namoosori.travelclub.step4.da.maria;
+package io.namoosori.travelclub.step4.da.maria.mybatis;
 
-import io.namoosori.travelclub.step4.da.map.*;
 import io.namoosori.travelclub.step4.store.*;
 
-public class ClubStoremariaLycler implements ClubStoreLycler {
-    private static ClubStoremariaLycler lycler;
+public class ClubStoreMariaLycler implements ClubStoreLycler {
+    private static ClubStoreMariaLycler lycler;
 
-    private ClubStoremariaLycler(){}
+    public ClubStoreMariaLycler(){}
 
-    public static ClubStoremariaLycler getInstance(){
+    public static ClubStoreMariaLycler getInstance(){
         if(lycler == null)
-            lycler = new ClubStoremariaLycler();
+            lycler = new ClubStoreMariaLycler();
 
         return lycler;
     }

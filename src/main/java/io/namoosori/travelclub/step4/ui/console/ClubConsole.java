@@ -40,7 +40,7 @@ public class ClubConsole {
 				//
 				TravelClubDto clubDto = new TravelClubDto(clubName, intro);
 				clubService.registerClub(clubDto);
-				narrator.say("Registered club :" + clubDto.toString());
+				narrator.say("Registered club : " + clubDto.toString());
 			} catch (IllegalArgumentException | ClubDuplicationException e) {
 				//
 				narrator.sayln(e.getMessage());

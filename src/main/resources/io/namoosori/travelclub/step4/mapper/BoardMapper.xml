@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.namoosori.travelclub.step4.mapper.BoardMapper">
+    <insert id="create" parameterType="io.namoosori.travelclub.step1.entity.club.TravelClub">
+        "insert into developer(yearOfCarrer, mainSkill)
+        values (#{yearOfCarrer}, {mainSkill})
+    </insert>
+</mapper>

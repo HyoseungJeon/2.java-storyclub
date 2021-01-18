@@ -16,9 +16,9 @@ public class StoryAssistant {
     }
 
     public static void main(String[] args) {
-        MemoryMap.getInstance().getMemberMap().put("test@test.co.kr", new CommunityMember("test@test.co.kr", "test", "123"));
-        ClubStoreMapLycler.getInstance().requestClubStore().create(new TravelClub("test", "testestststestsetset"));
-        ServiceLogicLycler.shareInstance().createClubService().addMembership(new ClubMembershipDto("00001", "test@test.co.kr"));
+        //MemoryMap.getInstance().getMemberMap().put("test@test.co.kr", new CommunityMember("test@test.co.kr", "test", "123"));
+        //ClubStoreMapLycler.getInstance().requestClubStore().create(new TravelClub("test", "testestststestsetset"));
+        //ServiceLogicLycler.shareInstance().createClubService().addMembership(new ClubMembershipDto("00001", "test@test.co.kr"));
 
         StoryAssistant assistant = new StoryAssistant();
         assistant.start();

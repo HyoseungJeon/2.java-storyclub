@@ -130,10 +130,7 @@ public class MemberMariaStore implements MemberStore {
 
     @Override
     public void delete(String targetemail) {
-        CommunityMember result = null;
-        ResultSet rs = null;
         String sql = Sql.M1d;
-
         try (Connection connection = ConnectionUtil.createConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)){
             pstmt.setString(1,targetemail);
@@ -155,8 +152,10 @@ public class MemberMariaStore implements MemberStore {
             pstmt.setString(1, email);
 
             rs = pstmt.executeQuery();
-            String usid = rs.getString("email");
-            result = Optional.ofNullable(usid).isPresent();
+            if(rs.next()){
+                String usid = rs.getString("email");
+                result = Optional.ofNullable(usid).isPresent();
+            }
             rs.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

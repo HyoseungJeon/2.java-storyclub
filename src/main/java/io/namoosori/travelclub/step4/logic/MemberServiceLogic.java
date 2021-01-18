@@ -2,6 +2,7 @@ package io.namoosori.travelclub.step4.logic;
 
 import io.namoosori.travelclub.step1.entity.club.CommunityMember;
 import io.namoosori.travelclub.step1.util.InvalidEmailException;
+import io.namoosori.travelclub.step4.da.ClubStoreMasterLycler;
 import io.namoosori.travelclub.step4.da.map.ClubStoreMapLycler;
 import io.namoosori.travelclub.step4.service.MemberService;
 import io.namoosori.travelclub.step4.service.dto.MemberDto;
@@ -19,7 +20,8 @@ public class MemberServiceLogic implements MemberService {
     private MemberStore memberStore;
 
     public MemberServiceLogic(){
-        memberStore = ClubStoreMapLycler.getInstance().requestMemberStore();
+//        memberStore = ClubStoreMapLycler.getInstance().requestMemberStore();
+        memberStore = ClubStoreMasterLycler.getInstance().requestMemberStore();
     }
 
     @Override

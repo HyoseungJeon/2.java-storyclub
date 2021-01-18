@@ -23,25 +23,32 @@ public class ClubMariaStore implements ClubStore {
         //create(new TravelClub("test", "testestststestsetset"));
         //retrieve("1");
         //retrieveByName("name");
-        //delete("1");
+        //delete("2");
     }
 
     @Override
     public String create(TravelClub club) {
         String result = null;
-        //String sql = "insert travelclub set usid=?, name=?,intro=?, foundationDay=?, boardId=?, membershipList=?";
+        ResultSet rs = null;
         String sql = Sql.C1c;
-        try(Connection connection = ConnectionUtil.createConnection();
-            PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, club.getUsid());
-            pstmt.setString(2, club.getName());
-            pstmt.setString(3, club.getIntro());
-            pstmt.setString(4, club.getFoundationDay());
-            pstmt.setString(5, club.getBoardId());
-            pstmt.setString(6, JsonUtil.toJson(club.getMembershipList()));
 
+        String sql2 = "select auto_increment from information_schema.tables where table_name='travelclub'";
+
+
+        try(Connection connection = ConnectionUtil.createConnection();
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            PreparedStatement pstmt_getId = connection.prepareStatement(sql2)) {
+            pstmt.setString(1, club.getName());
+            pstmt.setString(2, club.getIntro());
+            pstmt.setString(3, club.getFoundationDay());
+            pstmt.setString(4, club.getBoardId());
+            pstmt.setString(5, JsonUtil.toJson(club.getMembershipList()));
+
+            rs = pstmt_getId.executeQuery();
+            if(rs.next())
+                result = rs.getString(1);
             pstmt.executeUpdate();
-            result = club.getId();
+            System.out.println(result);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -52,7 +59,7 @@ public class ClubMariaStore implements ClubStore {
     public TravelClub retrieve(String clubId) {
         TravelClub result = null;
         ResultSet rs = null;
-        String sql = "select * from travelclub where usid=?";
+        String sql = Sql.C1r;
 
         try (Connection connection = ConnectionUtil.createConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)){
@@ -84,7 +91,7 @@ public class ClubMariaStore implements ClubStore {
     public TravelClub retrieveByName(String name) {
         TravelClub result = null;
         ResultSet rs = null;
-        String sql = "select * from travelclub where name=?";
+        String sql = Sql.C1rn;
 
         try (Connection connection = ConnectionUtil.createConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)){
@@ -114,7 +121,7 @@ public class ClubMariaStore implements ClubStore {
 
     @Override
     public void update(TravelClub club) {
-        String sql = "update travelclub set usid=?, name=?,intro=?, foundationDay=?, boardId=?, membershipList=? where usid=?";
+        String sql = Sql.C1u;
 
         try(Connection connection = ConnectionUtil.createConnection();
             PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -134,8 +141,7 @@ public class ClubMariaStore implements ClubStore {
 
     @Override
     public void delete(String clubId) {
-        String result = null;
-        String sql = "delete from travelclub where usid=?";
+        String sql = Sql.C1d;
 
         try(Connection connection = ConnectionUtil.createConnection();
             PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -156,10 +162,12 @@ public class ClubMariaStore implements ClubStore {
         try(Connection connection = ConnectionUtil.createConnection();
             PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, clubId);
-
+            System.out.println(sql);
             rs = pstmt.executeQuery();
-            String usid = rs.getString("usid");
-            result = Optional.ofNullable(usid).isPresent();
+            if(rs.next()) {
+                String usid = rs.getString(1);
+                result = Optional.ofNullable(usid).isPresent();
+            }
             rs.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
