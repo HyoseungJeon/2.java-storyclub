@@ -35,9 +35,14 @@ public class CommunityMember implements Entity {
         addressList text
     );*/
 
-    public String addressListToJson(){ return JsonUtil.toJson(addressList); }
+    public String addressListToJson(){
+        return JsonUtil.toJson(addressList);
+    }
 
-    public CommunityMember(){};
+    public CommunityMember(){
+        addressList = new ArrayList<>();
+        membershipList = new ArrayList<>();
+    }
 
     public CommunityMember(String email, String name, String phoneNumber) throws InvalidEmailException{
         this();

@@ -26,12 +26,12 @@ import java.util.Optional;
 public class MemberMariaStore implements MemberStore {
 
     public static void main(String[] args) {
-        MemberMariaStore mariaStore = new MemberMariaStore();
-        mariaStore.create(new CommunityMember());
-        mariaStore.retrieve("targetemail");
-        mariaStore.retrieveByName("test1");
-        mariaStore.update(new CommunityMember());
-        mariaStore.delete("targetemail");
+        //MemberMariaStore mariaStore = new MemberMariaStore();
+        //mariaStore.create(new CommunityMember());
+        //mariaStore.retrieve("targetemail");
+        //mariaStore.retrieveByName("test1");
+        //mariaStore.update(new CommunityMember());
+        //mariaStore.delete("targetemail");
     }
     @Override
     public String create(CommunityMember member) {
