@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.namoosori.travelclub.step4.mapper.MembershipMapper">
+    <!--
+    private String email;
+    private String name;
+    private String nickName;
+    private String phoneNumber;
+    private String birthDay;
+
+    private List<Address> addressList;
+    private List<ClubMembership> membershipList;
+    -->
+
+    <insert id="create"
+            parameterType="io.namoosori.travelclub.step1.entity.club.CommunityMember">
+        insert into clubmembership
+        values (
+        #{clubId},
+        #{memberEmail},
+        #{role},
+        #{joinDate}
+        )
+    </insert>
+
+    <select id="retrieve"
+            parameterType="String"
+            resultType="io.namoosori.travelclub.step1.entity.club.ClubMembership">
+        select *
+        from clubmembership
+        where memberEmail=#{email}
+    </select>
+
+    <select id="retrieveById"
+            parameterType="String"
+            resultType="io.namoosori.travelclub.step1.entity.club.ClubMembership">
+        select *
+        from clubmembership
+        where clubId=#{clubId}
+    </select>
+
+    <select id="retrieveByEmail"
+            parameterType="String"
+            resultType="io.namoosori.travelclub.step1.entity.club.ClubMembership">
+        select *
+        from clubmembership
+        where memberEmail=#{email}
+    </select>
+
+    <update id="update"
+            parameterType="io.namoosori.travelclub.step1.entity.club.CommunityMember">
+        >
+        update clubmembership
+        set
+        clubId=#{clubId},
+        memberEmail=#{memberEmail},
+        role=#{role},
+        joinDate=#{joinDate}
+
+        where clubId=#{clubId} and memberEmail={memberEmail}
+    </update>
+
+    <delete id="delete" parameterType="String">
+        delete from clubmembership where clubId=#{clubId}
+    </delete>
+</mapper>

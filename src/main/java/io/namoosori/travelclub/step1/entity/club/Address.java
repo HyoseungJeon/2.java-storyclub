@@ -1,5 +1,10 @@
 package io.namoosori.travelclub.step1.entity.club;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
 public class Address {
 
     private String zipCode;
@@ -15,10 +20,6 @@ public class Address {
         country varchar(?),
         addressType varchar()
     );*/
-
-    public Address(){
-        //
-    }
 
     public Address(String zipCode, String zipAddress, String streetAddress){
         this.zipCode = zipCode;

@@ -3,24 +3,77 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.namoosori.travelclub.step4.mapper.MemberMapper">
+    <!--
+    private String email;
+    private String name;
+    private String nickName;
+    private String phoneNumber;
+    private String birthDay;
+
+    private List<Address> addressList;
+    private List<ClubMembership> membershipList;
+    -->
+
+    <resultMap id="MemberWithMembership" type="io.namoosori.travelclub.step1.entity.club.CommunityMember">
+        <id property="email" column="email"/>
+        <id property="name" column="name"/>
+        <id property="nickName" column="nickName"/>
+        <id property="phoneNumber" column="phoneNumber"/>
+        <id property="birthDay" column="birthDay"/>
+        <id property="addressList" column="addressList" typeHandler="io.namoosori.travelclub.step4.store.handler.AddressTypeHandler"/>
+        <collection property="membershipList" ofType="io.namoosori.travelclub.step1.entity.club.ClubMembership">
+            <id property="clubId" column="clubId"/>
+            <id property="memberEmail" column="memberEmail"/>
+            <id property="role" column="role"/>
+            <id property="joinDate" column="joinDate"/>
+        </collection>
+    </resultMap>
+
     <select id="create"
-            parameterType="io.namoosori.travelclub.step4.da.dto.CommunityMemberDto"
-            resultType="String">
-        "insert into communitymember(email,name,nickName,phoneNumber,birthDay,addressList,membershipList)
-        values (#{email}, #{name}, #{nickName},#{phoneNumber},#{birthDay},#{addressList},#{membershipList})
+            parameterType="io.namoosori.travelclub.step1.entity.club.CommunityMember">
+        <bind name="membershipListToJson" value="member.addressListToJson()"/>
+        insert into communitymember(email, name, nickName, phoneNumber, birthDay, addressList)
+        values (
+        #{member.email},
+        #{member.name},
+        #{member.nickName},
+        #{member.phoneNumber},
+        #{member.birthDay},
+        #{addressListToJson}
+        )
+
     </select>
 
-    <select id="retrieve" resultType="io.namoosori.travelclub.step4.da.dto.CommunityMemberDto">
-        select * from communitymember where email=#{email}
+    <select id="retrieve"
+            parameterType="String"
+            resultMap="MemberWithMembership">
+        select *
+        from communitymember m, clubmembership s
+        where m.email=s.memberEmail
+        and m.email=#{email}
     </select>
 
-    <select id="retrieveByName" resultType="io.namoosori.travelclub.step4.da.dto.CommunityMemberDto">
-        select * from communitymember where name=#{name}
+    <select id="retrieveByName"
+            parameterType="String"
+            resultMap="MemberWithMembership">
+        select *
+        from communitymember m, clubmembership s
+        where m.email=s.memberEmail
+        and m.name=#{name}
     </select>
 
-    <update id="update" parameterType="io.namoosori.travelclub.step4.da.dto.CommunityMemberDto">
-        update communitymember(email,name,nickName,phoneNumber,birthDay,addressList,membershipList)
-        set #{email}, #{name}, #{nickName},#{phoneNumber},#{birthDay},#{addressList},#{membershipList}
+    <update id="update"
+            parameterType="io.namoosori.travelclub.step1.entity.club.CommunityMember">
+        <bind name="membershipListToJson" value="member.addressListToJson()"/>
+        update communitymember
+        set
+        email=#{member.email},
+        name=#{member.name},
+        nickName=#{member.nickName},
+        phoneNumber=#{member.phoneNumber},
+        birthDay=#{member.birthDay},
+        addressList=#{addressListToJson}
+        where email=#{member.email}
     </update>
 
     <delete id="delete" parameterType="String">

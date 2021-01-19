@@ -1,11 +1,20 @@
 package io.namoosori.travelclub.step1.entity.club;
 
 import io.namoosori.travelclub.step1.entity.AutoldEntity;
+import io.namoosori.travelclub.step4.da.dto.TravelClubDto;
 import io.namoosori.travelclub.util.DateUtil;
+import io.namoosori.travelclub.util.JsonUtil;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class TravelClub implements AutoldEntity {
     private static final int MINMUM_NAME_LENGTH = 3;
     private static final int MINMUM_INTRO_LENGTH = 10;
@@ -19,6 +28,8 @@ public class TravelClub implements AutoldEntity {
     private String boardId;
     private List<ClubMembership> membershipList;
 
+    public String membershipListToJson(){ return JsonUtil.toJson(membershipList); }//
+
     public TravelClub(String usid, String name, String intro, String foundationDay, String boardId) {
         this.usid = usid;
         this.name = name;
@@ -29,7 +40,7 @@ public class TravelClub implements AutoldEntity {
 
 
     /*create table TravelClub(
-        usid varchar(20),
+        usid int not null AUTO_INCREMENT primary key,
         name varchar(20),
         intro varchar(50),
         foundationDay varchar(20),
@@ -47,6 +58,12 @@ public class TravelClub implements AutoldEntity {
         this.setIntro(intro);
         this.foundationDay = DateUtil.today();
     }
+    public TravelClub(String usid, String name, String intro) {
+        this();
+        this.setUsid(usid);
+        this.setName(name);
+        this.setIntro(intro);
+    }
 
     @Override
     public String toString() {
@@ -57,6 +74,12 @@ public class TravelClub implements AutoldEntity {
         builder.append(", foundationDay='").append(foundationDay).append('\'');
         builder.append('}');
         return builder.toString();
+    }
+
+    public TravelClubDto toClubDto(){
+        return new TravelClubDto(
+                usid,name,intro,foundationDay,boardId, JsonUtil.toJson(membershipList)
+        );
     }
 
     public static TravelClub getSample(boolean keyIncluded){

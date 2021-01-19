@@ -1,14 +1,15 @@
 package io.namoosori.travelclub.step4.mapper;
 
-import io.namoosori.travelclub.step4.da.dto.CommunityMemberDto;
+import io.namoosori.travelclub.step1.entity.club.CommunityMember;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface MemberMapper {
-    public String create(CommunityMemberDto member);
-    public CommunityMemberDto retrieve(String email);
-    public String retrieveByName(String name);
-    public void update(CommunityMemberDto member);
+    public String create(@Param("member") CommunityMember member);
+    public CommunityMember retrieve(String email);
+    public List<CommunityMember> retrieveByName(String name);
+    public void update(@Param("member") CommunityMember member);
     public void delete(String email);
 
     public boolean exists(String email);

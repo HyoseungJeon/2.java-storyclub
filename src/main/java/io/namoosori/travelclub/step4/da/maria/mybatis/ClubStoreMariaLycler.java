@@ -33,4 +33,9 @@ public class ClubStoreMariaLycler implements ClubStoreLycler {
     public PostingStore requestPostingStore() {
         return new PostingMariaStore();
     }
+
+    @Override
+    public MembershipStore requsetMembershipStore() {
+        return new MembershipMariaStore();
+    }
 }

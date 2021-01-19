@@ -1,6 +1,7 @@
 package io.namoosori.travelclub.step4.da;
 
 import io.namoosori.travelclub.step4.da.maria.*;
+import io.namoosori.travelclub.step4.da.maria.mybatis.ClubStoreMariaLycler;
 import io.namoosori.travelclub.step4.store.*;
 
 public class ClubStoreMasterLycler implements ClubStoreLycler {
@@ -36,5 +37,10 @@ public class ClubStoreMasterLycler implements ClubStoreLycler {
     @Override
     public PostingStore requestPostingStore() {
         return lycler.requestPostingStore();
+    }
+
+    @Override
+    public MembershipStore requsetMembershipStore() {
+        return lycler.requsetMembershipStore();
     }
 }

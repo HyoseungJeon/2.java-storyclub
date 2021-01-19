@@ -61,9 +61,9 @@ public class MemberMariaStore implements MemberStore {
                 String addressList = rs.getString("addressList");
                 String membershipList = rs.getString("membershipList");
 
-                result = new CommunityMember(email,name,nickName,phoneNumber,birthDay);
-                result.setAddressList(JsonUtil.fromJsonList(addressList, Address.class));
-                result.setMembershipList(JsonUtil.fromJsonList(membershipList, ClubMembership.class));
+                result = new CommunityMember(email,name,nickName,phoneNumber,birthDay
+                ,JsonUtil.fromJsonList(addressList, Address.class)
+                        ,JsonUtil.fromJsonList(membershipList, ClubMembership.class));
             }
 
             rs.close();
@@ -95,9 +95,9 @@ public class MemberMariaStore implements MemberStore {
                 String addressList = rs.getString("addressList");
                 String membershipList = rs.getString("membershipList");
 
-                CommunityMember result = new CommunityMember(email,name,nickName,phoneNumber,birthDay);
-                result.setAddressList(JsonUtil.fromJsonList(addressList, Address.class));
-                result.setMembershipList(JsonUtil.fromJsonList(membershipList, ClubMembership.class));
+                CommunityMember result = new CommunityMember(email,name,nickName,phoneNumber,birthDay
+                        ,JsonUtil.fromJsonList(addressList, Address.class)
+                        ,JsonUtil.fromJsonList(membershipList, ClubMembership.class));
                 results.add(result);
             }
 

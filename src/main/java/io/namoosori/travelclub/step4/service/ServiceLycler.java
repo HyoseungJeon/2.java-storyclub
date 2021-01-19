@@ -5,4 +5,5 @@ public interface ServiceLycler {
     public ClubService createClubService();
     public MemberService createMemberService();
     public PostingService createPostingService();
+    public MembershipService createMembershipService();
 }

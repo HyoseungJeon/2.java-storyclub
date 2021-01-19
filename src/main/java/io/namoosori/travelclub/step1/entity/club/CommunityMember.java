@@ -2,10 +2,19 @@ package io.namoosori.travelclub.step1.entity.club;
 
 import io.namoosori.travelclub.step1.entity.Entity;
 import io.namoosori.travelclub.step1.util.InvalidEmailException;
+import io.namoosori.travelclub.step4.da.dto.CommunityMemberDto;
+import io.namoosori.travelclub.util.JsonUtil;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class CommunityMember implements Entity {
     private String email;
     private String name;
@@ -17,21 +26,18 @@ public class CommunityMember implements Entity {
     private List<ClubMembership> membershipList;
 
     /*create table CommunityMember(
-        email varchar(30),
+        email varchar(30) not null primary key,
         name varchar(20),
         nickName varchar(20),
         phoneNumber varchar(20),
         birthDay varchar(10),
 
-        addressList text,
-        membershipList text
+        addressList text
     );*/
 
-    public CommunityMember(){
+    public String addressListToJson(){ return JsonUtil.toJson(addressList); }
 
-        this.membershipList = new ArrayList<>();
-        this.addressList = new ArrayList<>();
-    }
+    public CommunityMember(){};
 
     public CommunityMember(String email, String name, String phoneNumber) throws InvalidEmailException{
         this();
@@ -40,12 +46,12 @@ public class CommunityMember implements Entity {
         this.phoneNumber = phoneNumber;
     }
 
-    public CommunityMember(String email, String name, String nickName, String phoneNumber, String birthDay) {
-        this.email = email;
-        this.name = name;
-        this.nickName = nickName;
-        this.phoneNumber = phoneNumber;
-        this.birthDay = birthDay;
+    public CommunityMemberDto toMemberDto(){
+        return new CommunityMemberDto(
+                email,name,nickName,phoneNumber,birthDay,
+                JsonUtil.toJson(addressList),
+                JsonUtil.toJson(membershipList)
+        );
     }
 
     public static CommunityMember getSample(){

@@ -10,6 +10,7 @@ import io.namoosori.travelclub.step4.store.ClubStore;
 import io.namoosori.travelclub.util.ConnectionUtil;
 import io.namoosori.travelclub.util.JsonUtil;
 import io.namoosori.travelclub.util.MybatisUtil;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 
 import java.sql.Connection;
@@ -25,52 +26,72 @@ public class ClubMariaStore implements ClubStore {
     }
 
     public void test(){
-        //create(new TravelClub("test15", "testestststestsetset"));
-        //TravelClub travelClub = retrieve("21");
-        //System.out.println(travelClub.toString());
-        //TravelClub travelClub = retrieveByName("test");
-        //System.out.println(travelClub.toString());
-        //delete("21");
+//        create(new TravelClub("test10", "testestststestsetset"));
+//        TravelClub travelClub = retrieve("1");
+//        System.out.println(travelClub.toString());
+//        TravelClub travelClub = retrieveByName("test");
+//        System.out.println(travelClub.toString());
+//        update(new TravelClub("1","newtest15","adaskasmkcasmkdasmkd"));
+//        delete("5");
     }
 
     @Override
     public String create(TravelClub club) {
-        SqlSession session = MybatisUtil.createSession();
-        ClubMapper clubMapper = session.getMapper(ClubMapper.class);
+        String usid= null;
+        try (SqlSession session = MybatisUtil.createSession()){
+            ClubMapper clubMapper = session.getMapper(ClubMapper.class);
+            clubMapper.create(club);
+            usid = clubMapper.retrieveByName(club.getName()).getUsid();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        return clubMapper.create(new TravelClubDto().toTravelClubDto(club));
+        return usid;
     }
 
     @Override
     public TravelClub retrieve(String clubId) {
-        SqlSession session = MybatisUtil.createSession();
-        ClubMapper clubMapper = session.getMapper(ClubMapper.class);
-
-        return new TravelClubDto().toTravelClub(clubMapper.retrieve(clubId));
+        TravelClub travelClub = null;
+        try(SqlSession session = MybatisUtil.createSession()){
+            ClubMapper clubMapper = session.getMapper(ClubMapper.class);
+            travelClub = clubMapper.retrieve(clubId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return travelClub;
     }
 
     @Override
     public TravelClub retrieveByName(String name) {
-        SqlSession session = MybatisUtil.createSession();
-        ClubMapper clubMapper = session.getMapper(ClubMapper.class);
+        TravelClub travelClub = null;
+        try (SqlSession session = MybatisUtil.createSession()){
+            ClubMapper clubMapper = session.getMapper(ClubMapper.class);
 
-        return new TravelClubDto().toTravelClub(clubMapper.retrieveByName(name));
+            travelClub = clubMapper.retrieveByName(name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return travelClub;
     }
 
     @Override
     public void update(TravelClub club) {
-        SqlSession session = MybatisUtil.createSession();
-        ClubMapper clubMapper = session.getMapper(ClubMapper.class);
-
-        clubMapper.update(new TravelClubDto().toTravelClubDto(club));
+        try (SqlSession session = MybatisUtil.createSession()) {
+            ClubMapper clubMapper = session.getMapper(ClubMapper.class);
+            clubMapper.update(club);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void delete(String clubId) {
-        SqlSession session = MybatisUtil.createSession();
-        ClubMapper clubMapper = session.getMapper(ClubMapper.class);
-
-        clubMapper.delete(clubId);
+        try (SqlSession session = MybatisUtil.createSession()){
+            ClubMapper clubMapper = session.getMapper(ClubMapper.class);
+            clubMapper.delete(clubId);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

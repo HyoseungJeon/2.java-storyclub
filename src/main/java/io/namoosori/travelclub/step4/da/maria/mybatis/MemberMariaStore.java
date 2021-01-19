@@ -12,6 +12,7 @@ import io.namoosori.travelclub.step4.store.MemberStore;
 import io.namoosori.travelclub.util.ConnectionUtil;
 import io.namoosori.travelclub.util.JsonUtil;
 import io.namoosori.travelclub.util.MybatisUtil;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 
 import java.sql.Connection;
@@ -23,12 +24,21 @@ import java.util.List;
 import java.util.Optional;
 
 public class MemberMariaStore implements MemberStore {
+
+    public static void main(String[] args) {
+        MemberMariaStore mariaStore = new MemberMariaStore();
+        mariaStore.create(new CommunityMember());
+        mariaStore.retrieve("targetemail");
+        mariaStore.retrieveByName("test1");
+        mariaStore.update(new CommunityMember());
+        mariaStore.delete("targetemail");
+    }
     @Override
     public String create(CommunityMember member) {
         SqlSession session = MybatisUtil.createSession();
         MemberMapper memberMapper = session.getMapper(MemberMapper.class);
-
-        return memberMapper.create(new CommunityMemberDto().toCommunityMemberDto(member));
+        memberMapper.create(member);
+        return member.getEmail();
     }
 
     @Override
@@ -36,15 +46,14 @@ public class MemberMariaStore implements MemberStore {
         SqlSession session = MybatisUtil.createSession();
         MemberMapper memberMapper = session.getMapper(MemberMapper.class);
 
-        return new CommunityMemberDto().toCommunityMember(memberMapper.retrieve(targetemail));
+        return memberMapper.retrieve(targetemail);
     }
 
     @Override
     public List<CommunityMember> retrieveByName(String targetname) {
         SqlSession session = MybatisUtil.createSession();
         MemberMapper memberMapper = session.getMapper(MemberMapper.class);
-
-        return JsonUtil.fromJsonList(memberMapper.retrieveByName(targetname), CommunityMember.class);
+        return memberMapper.retrieveByName(targetname);
     }
 
     @Override
@@ -52,7 +61,7 @@ public class MemberMariaStore implements MemberStore {
         SqlSession session = MybatisUtil.createSession();
         MemberMapper memberMapper = session.getMapper(MemberMapper.class);
 
-        memberMapper.update(new CommunityMemberDto().toCommunityMemberDto(member));
+        memberMapper.update(member);
     }
 
     @Override

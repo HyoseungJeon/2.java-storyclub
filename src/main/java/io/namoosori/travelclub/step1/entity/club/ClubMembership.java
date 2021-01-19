@@ -1,18 +1,25 @@
 package io.namoosori.travelclub.step1.entity.club;
 
 import io.namoosori.travelclub.util.DateUtil;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
+
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClubMembership {
-    private String clubId;
-    private String memberEmail;
+    private String clubId; //cludId - usid
+    private String memberEmail; //member - email
     private RoleInClub role;
     private String joinDate;
 
     /*create table clubmembership(
-        clubId varchar(),
-        memberEmail varchar(),
-        role RoleInClub,
-        joinDate varchar()
+        clubId Int,
+        memberEmail varchar(30),
+        role varchar(10),
+        joinDate varchar(20),
+        foreign key(clubId) references travelclub(usid),
+        foreign key(memberEmail) references CommunityMember(email)
     );*/
 
     public ClubMembership(TravelClub club, CommunityMember member){

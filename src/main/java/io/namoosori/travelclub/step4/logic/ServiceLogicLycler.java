@@ -11,6 +11,7 @@ public class ServiceLogicLycler implements ServiceLycler {
     private MemberService memberService;
     private BoardService boardService;
     private PostingService postingService;
+    private MembershipService membershipService;
 
     private ServiceLogicLycler(){
 
@@ -55,5 +56,14 @@ public class ServiceLogicLycler implements ServiceLycler {
         }
 
         return postingService;
+    }
+
+    @Override
+    public MembershipService createMembershipService() {
+        if (membershipService == null) {
+            membershipService = new MembershipServiceLogic();
+        }
+
+        return membershipService;
     }
 }

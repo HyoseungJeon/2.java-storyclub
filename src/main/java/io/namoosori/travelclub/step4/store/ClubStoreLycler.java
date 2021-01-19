@@ -5,4 +5,5 @@ public interface ClubStoreLycler {
     public ClubStore requestClubStore();
     public BoardStore requestBoardStore();
     public PostingStore requestPostingStore();
+    public MembershipStore requsetMembershipStore();
 }

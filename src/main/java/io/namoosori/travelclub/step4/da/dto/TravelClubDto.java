@@ -5,10 +5,12 @@ import io.namoosori.travelclub.step1.entity.club.ClubMembership;
 import io.namoosori.travelclub.step1.entity.club.TravelClub;
 import io.namoosori.travelclub.util.DateUtil;
 import io.namoosori.travelclub.util.JsonUtil;
+import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
 public class TravelClubDto implements AutoldEntity {
     private static final int MINMUM_NAME_LENGTH = 3;
     private static final int MINMUM_INTRO_LENGTH = 10;
@@ -22,38 +24,12 @@ public class TravelClubDto implements AutoldEntity {
     private String boardId;
     private String membershipList;
 
-    public TravelClubDto(String usid, String name, String intro, String foundationDay, String boardId) {
-        this.usid = usid;
-        this.name = name;
-        this.intro = intro;
-        this.foundationDay = foundationDay;
-        this.boardId = boardId;
-    }
-
-    public TravelClub toTravelClub(TravelClubDto travelClubDto){
+    public TravelClub toClub(){
         TravelClub travelClub = new TravelClub(
-          travelClubDto.getUsid(),
-          travelClubDto.getName(),
-          travelClubDto.getIntro(),
-          travelClubDto.getFoundationDay(),
-          travelClubDto.getBoardId()
+                usid,name,intro,foundationDay,boardId,JsonUtil.fromJsonList(membershipList,ClubMembership.class)
         );
-        travelClub.setMembershipList(JsonUtil.fromJsonList(travelClubDto.getMembershipList(),ClubMembership.class));
         return travelClub;
     }
-
-    public TravelClubDto toTravelClubDto(TravelClub travelClub){
-        TravelClubDto travelClubDto1 = new TravelClubDto(
-                travelClub.getUsid(),
-                travelClub.getName(),
-                travelClub.getIntro(),
-                travelClub.getFoundationDay(),
-                travelClub.getBoardId()
-        );
-        travelClubDto1.setMembershipList(JsonUtil.toJson(travelClub.getMembershipList()));
-        return travelClubDto1;
-    }
-
 
     /*create table TravelClub(
         usid varchar(20),
@@ -64,15 +40,6 @@ public class TravelClubDto implements AutoldEntity {
         boardId varchar(20),
         membershipList text
     );*/
-    public TravelClubDto(){};
-
-
-    public TravelClubDto(String name, String intro){
-        this();
-        this.setName(name);
-        this.setIntro(intro);
-        this.foundationDay = DateUtil.today();
-    }
 
     @Override
     public String toString() {

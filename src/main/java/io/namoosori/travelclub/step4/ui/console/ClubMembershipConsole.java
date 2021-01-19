@@ -3,6 +3,7 @@ package io.namoosori.travelclub.step4.ui.console;
 import io.namoosori.travelclub.step1.entity.club.RoleInClub;
 import io.namoosori.travelclub.step4.logic.ServiceLogicLycler;
 import io.namoosori.travelclub.step4.service.ClubService;
+import io.namoosori.travelclub.step4.service.MembershipService;
 import io.namoosori.travelclub.step4.service.ServiceLycler;
 import io.namoosori.travelclub.step4.service.dto.ClubMembershipDto;
 import io.namoosori.travelclub.step4.service.dto.TravelClubDto;
@@ -21,6 +22,7 @@ public class ClubMembershipConsole {
 	private TravelClubDto currentClub;
 
 	private ClubService clubService;
+	private MembershipService membershipService;
 
 	private ConsoleUtil consoleUtil;
 	private Narrator narrator;
@@ -29,6 +31,7 @@ public class ClubMembershipConsole {
 		//
 		ServiceLycler serviceFactory = ServiceLogicLycler.shareInstance();
 		this.clubService = serviceFactory.createClubService();
+		this.membershipService = serviceFactory.createMembershipService();
 
 		this.narrator = new Narrator(this, TalkingAt.Left);
 		this.consoleUtil = new ConsoleUtil(narrator);
@@ -93,7 +96,7 @@ public class ClubMembershipConsole {
 				ClubMembershipDto clubMembershipDto = new ClubMembershipDto(currentClub.getUsid(), email);
 				clubMembershipDto.setRole(RoleInClub.valueOf(memberRole));
 
-		        clubService.addMembership(clubMembershipDto);
+				membershipService.addMembership(clubMembershipDto);
 				narrator.sayln(String.format("Add a member[email:%s] in club[name:%s]", email, currentClub.getName()));
 
 			} catch (MemberDuplicationException | NoSuchClubException e) {
@@ -120,7 +123,7 @@ public class ClubMembershipConsole {
 				break;
 			}
 			try {
-				membershipDto = clubService.findMembershipIn(currentClub.getUsid(), memberEmail);
+				membershipDto = membershipService.findMembershipIn(currentClub.getUsid(), memberEmail);
 				narrator.sayln("\t > Found membership information: " + membershipDto);
 			} catch (NoSuchMemberException e) {
 				narrator.sayln(e.getMessage());
@@ -138,7 +141,7 @@ public class ClubMembershipConsole {
 			}
 
 			try {
-				membershipDto = clubService.findMembershipIn(currentClub.getUsid(), memberEmail);
+				membershipDto = membershipService.findMembershipIn(currentClub.getUsid(), memberEmail);
 				narrator.sayln("\t > Found membership information: " + membershipDto);
 				break;
 			} catch (NoSuchMemberException e) {
@@ -169,9 +172,9 @@ public class ClubMembershipConsole {
 			targetMembership.setRole(RoleInClub.valueOf(newRole));
 		}
 		String clubId = targetMembership.getClubId();
-		clubService.modifyMembership(clubId, targetMembership);
+		membershipService.modifyMembership(clubId, targetMembership);
 
-		ClubMembershipDto modifiedMembership = clubService.findMembershipIn(clubId, targetMembership.getMemberEmail());
+		ClubMembershipDto modifiedMembership = membershipService.findMembershipIn(clubId, targetMembership.getMemberEmail());
 		narrator.sayln("\t > Modified membership information: " + modifiedMembership);
 	}
 
@@ -192,7 +195,7 @@ public class ClubMembershipConsole {
 		if (confirmStr.toLowerCase().equals("y") || confirmStr.toLowerCase().equals("yes")) {
 			//
 			narrator.sayln("Removing a membership -->" + targetMembership.getMemberEmail());
-			clubService.removeMembership(currentClub.getUsid(), targetMembership.getMemberEmail());
+			membershipService.removeMembership(currentClub.getUsid(), targetMembership.getMemberEmail());
 		} else {
 			narrator.sayln("Remove cancelled, the member is safe. --> " + targetMembership.getMemberEmail());
 		}

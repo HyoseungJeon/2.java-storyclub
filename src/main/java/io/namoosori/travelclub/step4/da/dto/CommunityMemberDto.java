@@ -6,10 +6,13 @@ import io.namoosori.travelclub.step1.entity.club.ClubMembership;
 import io.namoosori.travelclub.step1.entity.club.CommunityMember;
 import io.namoosori.travelclub.step1.util.InvalidEmailException;
 import io.namoosori.travelclub.util.JsonUtil;
+import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+@AllArgsConstructor
 public class CommunityMemberDto implements Entity {
     private String email;
     private String name;
@@ -31,49 +34,12 @@ public class CommunityMemberDto implements Entity {
         membershipList text
     );*/
 
-    public CommunityMemberDto(){
-    }
-
-    public CommunityMemberDto(String email, String name, String phoneNumber) throws InvalidEmailException {
-        this();
-        setEmail(email);
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-    }
-
-    public CommunityMemberDto(String email, String name, String nickName, String phoneNumber, String birthDay) {
-        this.email = email;
-        this.name = name;
-        this.nickName = nickName;
-        this.phoneNumber = phoneNumber;
-        this.birthDay = birthDay;
-    }
-
-    public CommunityMember toCommunityMember(CommunityMemberDto communityMemberDto){
-        CommunityMember communityMember = new CommunityMember(
-          communityMemberDto.getEmail(),
-          communityMemberDto.getName(),
-          communityMemberDto.getNickName(),
-          communityMemberDto.getPhoneNumber(),
-          communityMemberDto.getBirthDay()
+    public CommunityMember toMember(){
+        return new CommunityMember(
+                email, name, nickName,phoneNumber,birthDay,
+                JsonUtil.fromJsonList(addressList,Address.class),
+                JsonUtil.fromJsonList(membershipList,ClubMembership.class)
         );
-        communityMember.setAddressList(JsonUtil.fromJsonList(communityMemberDto.getAddressList(),Address.class));
-        communityMember.setMembershipList(JsonUtil.fromJsonList(communityMemberDto.getMembershipList(),ClubMembership.class));
-        return communityMember;
-    }
-
-    public CommunityMemberDto toCommunityMemberDto(CommunityMember communityMember){
-        CommunityMemberDto communityMemberDto = new CommunityMemberDto(
-                communityMember.getEmail(),
-                communityMember.getName(),
-                communityMember.getNickName(),
-                communityMember.getPhoneNumber(),
-                communityMember.getBirthDay()
-        );
-        communityMemberDto.setAddressList(JsonUtil.toJson(communityMember.getAddressList()));
-        communityMemberDto.setMembershipList(JsonUtil.toJson(communityMember.getMembershipList()));
-
-        return communityMemberDto;
     }
 
     private boolean isValidEmailAddress(String email){
